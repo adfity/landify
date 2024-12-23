@@ -1,0 +1,253 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 30;
+    left: 0;
+    background-color: #fff;
+    border-right: 1px solid #e0e0e0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1020;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+/* Tombol sidebar collapse */
+.toggle-button {
+    position: fixed;
+    top: 80px;
+    left: 200px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1040;
+    transition: transform 0.3s ease-in-out;
+}
+.sidebar-header .btn {
+    position: absolute; 
+    left: 200px; 
+    top: 0px;
+    width: 40px; 
+    height: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1040;
+}
+.custom-divider {
+    border: none; 
+    height: 2px; 
+    background-color: #000  ; 
+    margin-top: -10px;
+    margin-bottom: 20px; 
+    width: 100%; 
+}
+
+
+.toggle-button.hidden {
+    display: none;
+}
+
+/* Konten utama */
+.content {
+    max-width: 1300px; 
+    margin: 70px auto 60px auto; 
+    padding: 30px;
+    margin-left: 240px;
+    
+}
+
+
+.active {
+    background-color: #8AABEC !important;
+    color: #fff !important;
+}
+
+.active i {
+    color: #fff !important;
+}
+
+.list-group-item {
+    border-bottom: none !important;
+}
+.custom-dropdown-toggle {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 10px; 
+    background: none; 
+    border: none; 
+}
+
+.custom-dropdown-toggle::after {
+    display: none; /
+}
+
+.custom-dropdown-toggle img {
+    vertical-align: middle; 
+}
+.sidebar.collapsed {
+    width: 0;
+    overflow: hidden;
+}
+.hidden {
+    display: none;
+}
+.template-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+.template-card:hover {
+    transform: scale(1.05);
+}
+
+.template-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.view-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.3s;
+    background-color: #739AE8;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.template-card:hover .view-button {
+    transform: translate(-50%, -50%) scale(1);
+}
+#search-result {
+    display: none; /* Initially hide the element */
+}
+.carousel-item img {
+    max-height: 350px;
+    object-fit: cover;
+    width: 100%;
+}
+.btn-custom {
+    background-color: #007bff;
+    color: #fff;
+}
+.btn-custom:hover {
+    background-color: #0056b3;
+}
+.carousel {
+    text-align: center;
+}
+.carousel img {
+    display: inline-block;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black;
+}
+#priceFilterDropdown{
+    display: none;
+}
+#search-result {
+    margin: 0; 
+    flex-grow: 1; 
+}
+
+/* Styling untuk memastikan gambar seragam */
+
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px; /* Sesuaikan tinggi sesuai kebutuhan */
+    width: 100%; /* Pastikan gambar memenuhi lebar kartu */
+    border-radius: 5px; /* Opsional, untuk estetika */
+}
+.card:focus,
+.card:active {
+    outline: none !important; /* Hilangkan garis fokus */
+}
+/* Tambahkan jarak di sekitar card */
+.template-card {
+    padding: 10px; /* Tambahan padding agar elemen tidak terlalu mepet */
+}
+
+/* Hilangkan border dan tambahkan shadow */
+.card {
+    border: none;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+}
+
+/* Tambahkan shadow ringan */
+.templatecard
+{
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efek hover pada card */
+.card.shadow-sm:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Gambar di dalam card */
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    
+}
+
+/* Judul */
+.card-title {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+/* Teks tipe */
+.card-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+/* Harga */
+.text-success, .text-primary {
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+
+
+/* Tambahkan jarak antar kolom */
+.row.g-4 {
+    row-gap: 20px; /* Tambahkan jarak antar baris */
+    column-gap: 20px; /* Tambahkan jarak antar kolom */
+}

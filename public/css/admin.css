@@ -1,0 +1,113 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+
+/* Sidebar */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top: 30;
+    left: 0;
+    background-color: #fff;
+    border-right: 1px solid #e0e0e0;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1020;
+}
+
+.sidebar.collapsed {
+    transform: translateX(-100%);
+}
+
+/* Tombol sidebar collapse */
+.toggle-button {
+    position: fixed;
+    top: 80px;
+    left: 200px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1040;
+    transition: transform 0.3s ease-in-out;
+}
+.sidebar-header .btn {
+    position: absolute; 
+    left: 200px; 
+    top: 0px;
+    width: 40px; 
+    height: 40px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1040;
+}
+.custom-divider {
+    border: none; 
+    height: 2px; 
+    background-color: #000  ; 
+    margin-top: -10px;
+    margin-bottom: 20px; 
+    width: 100%; 
+}
+
+
+.toggle-button.hidden {
+    display: none;
+}
+
+/* Konten utama */
+.content {
+    max-width: 1300px; 
+    margin: 70px auto 60px auto; 
+    padding: 30px;
+    margin-left: 240px;
+    
+}
+
+
+.active {
+    background-color: #2870ff !important;
+    color: #fff !important;
+}
+
+.active i {
+    color: #fff !important;
+}
+
+.list-group-item {
+    border-bottom: none !important;
+}
+.custom-dropdown-toggle {
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 10px; 
+    background: none; 
+    border: none; 
+}
+
+.custom-dropdown-toggle::after {
+    display: none; /
+}
+
+.custom-dropdown-toggle img {
+    vertical-align: middle; 
+}
+.sidebar.collapsed {
+    width: 0;
+    overflow: hidden;
+}
+.hidden {
+    display: none;
+}
+
