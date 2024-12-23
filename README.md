@@ -19,7 +19,7 @@ The Landing Page Generator is a tool designed to simplify the creation of landin
 
 ### 1. Clone the repository:
 ```bash
-git clone https://github.com/username/landing-page-generator.git  
+git clone https://github.com/adfity/landify.git 
 cd landing-page-generator  
 ```
 
