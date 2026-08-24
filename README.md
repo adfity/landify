@@ -10,48 +10,121 @@ The Landing Page Generator is a tool designed to simplify the creation of landin
 
 ## System Requirements
 
-- PHP >= 7.4
-- Composer
-- Web server (e.g., Apache/Nginx)
-- MySQL/MariaDB database
+- Docker Desktop / Docker Engine + Docker Compose
+- DBeaver (opsional, untuk mengelola database — tidak menggunakan phpMyAdmin)
 
-## Installation
+> Project ini pakai Laravel 8, yang tidak kompatibel dengan PHP 8.2+. Lewat Docker, container-nya sudah dikunci ke PHP 7.4 sehingga tidak perlu install PHP versi lama secara manual di komputer kamu.
 
-### 1. Clone the repository:
+## Installation (Docker)
+
+### 1. Clone repository
 ```bash
-git clone https://github.com/adfity/landify.git 
-cd landing-page-generator  
+git clone https://github.com/adfity/landify.git
+cd landify
 ```
 
-### 2. Install dependencies:
-```bash
-composer install
+### 2. Siapkan file `.env`
+Copy `.env.example` menjadi `.env`, lalu sesuaikan bagian database:
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=landing_db
+DB_USERNAME=landing_user
+DB_PASSWORD=ganti
+
+# Khusus dipakai docker-compose.yml, BUKAN dibaca Laravel
+DB_ROOT_PASSWORD=ganti
+DB_EXTERNAL_PORT=3309
+APP_PORT=8000
 ```
 
-### 3. Configure the environment
-- Copy the .env.example file to .env:
-```bash
-cp .env.example .env  
-```
-- Update the .env file with your database and environment settings.
+**Soal port:**
+- `DB_PORT=3306` → port MySQL **di dalam Docker network** (antar container `app` ↔ `db`). Biarkan `3306`, ini tidak pernah bentrok dengan MySQL lain di komputer kamu karena terisolasi di network Docker sendiri.
+- `DB_EXTERNAL_PORT` → port yang dibuka ke komputer kamu (dipakai DBeaver). **Ganti kalau `3306` di komputer kamu sudah dipakai** project/aplikasi lain (contoh di atas pakai `3309`).
+- `APP_PORT` → port web di browser (default `8000`), ganti kalau sudah dipakai project lain.
 
-### 4. Generate the application key:
+### 3. Build dan jalankan container
 ```bash
-php artisan key:generate
+docker compose up -d --build
 ```
 
-### 5. Run migrations and seed the database:
+Proses pertama kali agak lama karena build image PHP + `composer install` otomatis dijalankan. Pantau progressnya:
 ```bash
-php artisan migrate --seed
+docker compose logs -f app
+```
+Tunggu sampai muncul log `Database siap.` dan tidak ada error lagi.
+
+### 4. Akses aplikasi
+Buka **http://localhost:8000** (atau sesuai `APP_PORT` yang di-set).
+
+## Koneksi Database via DBeaver
+
+Tidak perlu phpMyAdmin — port MySQL langsung di-expose ke host. Buat koneksi baru di DBeaver dengan driver **MySQL**:
+
+| Field    | Value                                             |
+|----------|----------------------------------------------------|
+| Host     | `localhost`                                         |
+| Port     | isi sesuai `DB_EXTERNAL_PORT` (contoh: `3309`)      |
+| Database | isi sesuai `DB_DATABASE` (contoh: `landing_db`)     |
+| Username | isi sesuai `DB_USERNAME` (contoh: `landing_user`)   |
+| Password | isi sesuai `DB_PASSWORD` (contoh: `sensor`)         |
+
+Butuh akses admin penuh (misal untuk `GRANT`)? Pakai username `root` dan password sesuai `DB_ROOT_PASSWORD`.
+
+## Perintah Harian yang Sering Dipakai
+
+```bash
+# Masuk ke container app (artisan/composer manual)
+docker compose exec app bash
+
+# Jalankan migrasi & seeder
+docker compose exec app php artisan migrate:fresh --seed
+docker compose exec app php artisan db:seed --class=UserSeeder
+
+# Tinker
+docker compose exec app php artisan tinker
+
+# Install package baru
+docker compose exec app composer require nama/paket
+
+# Compile asset CSS/JS (sekali jalan, bukan container permanen)
+docker compose --profile tools run --rm node
+
+# Lihat log
+docker compose logs -f app
+docker compose logs -f webserver
+docker compose logs -f db
+
+# Matikan semua container
+docker compose down
+
+# Matikan + hapus data database (mulai dari nol lagi)
+docker compose down -v
 ```
 
-### 6. Start the local development server:
+## Ganti Kredensial Database di Kemudian Hari
+
+MySQL cuma membuat user/password/database **saat volume-nya pertama kali dibuat**. Kalau kamu ubah `DB_DATABASE` / `DB_USERNAME` / `DB_PASSWORD` / `DB_ROOT_PASSWORD` di `.env` setelah container pernah jalan, reset volume-nya dulu:
+
 ```bash
-php artisan serve
+docker compose down -v
+docker compose up -d --build
 ```
 
-### 7. Access the application:
-Open your browser and go to http://localhost:8000.
+`-v` menghapus volume database — pastikan sudah backup data penting sebelum menjalankan ini.
+
+## Troubleshooting
+
+| Gejala | Kemungkinan sebab |
+|---|---|
+| `docker compose up` gagal, port sudah dipakai | Ganti `APP_PORT` atau `DB_EXTERNAL_PORT` di `.env` |
+| Laravel gagal konek DB / "could not find driver" | Cek `DB_HOST=db` (bukan `127.0.0.1`) di `.env` |
+| DBeaver gagal konek | Pastikan pakai port `DB_EXTERNAL_PORT` (contoh `3309`), bukan `3306` |
+| Halaman putih / 500 error | Cek `docker compose logs -f app`, biasanya soal permission `storage/` atau `APP_KEY` kosong |
+| Sudah ubah `.env` tapi database tidak berubah | `docker compose down -v` lalu `up -d --build` lagi |
+| Perubahan file Blade/PHP tidak muncul di browser | Coba `docker compose exec app php artisan view:clear`, lalu hard refresh browser |
 
 ## Usage
 
